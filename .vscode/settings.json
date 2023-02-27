@@ -1,0 +1,8 @@
+{
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportMissingImports": "none",
+    "reportMissingModuleSource": "none",
+    "reportShadowedImports": "none"
+  },
+  "python.formatting.provider": "black"
+}
