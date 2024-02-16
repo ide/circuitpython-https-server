@@ -7,7 +7,17 @@ import socketpool
 import supervisor
 import wifi
 
-from adafruit_httpserver.server import HTTPServer
+from adafruit_httpserver.server import Server as HTTPServer
+from adafruit_httpserver.response import Response
+
+
+def index(request):
+    u = os.uname()
+    return Response(
+        request,
+        content_type="text/plain",
+        body=f"Hello from {u.machine} running {u.version}!\n",
+    )
 
 
 def main() -> None:
@@ -24,7 +34,8 @@ def main() -> None:
     host = str(wifi.radio.ipv4_address)
     pool = socketpool.SocketPool(wifi.radio)
     http_server = HTTPServer(pool)
-    http_server.start(host, port=80, root_path="public_html")
+    http_server.route("/")(index)
+    http_server.start(host, port=80)
 
     ssl_context = ssl.create_default_context()
     # The Pico is the server and does not require a certificate from the client, so disable
@@ -35,7 +46,8 @@ def main() -> None:
     )
     tls_pool = TLSServerSocketPool(pool, ssl_context)
     https_server = HTTPServer(tls_pool)
-    https_server.start(host, port=443, root_path="public_html")
+    https_server.route("/")(index)
+    https_server.start(host, port=443)
 
     print()
     print("The web server is listening on:")
