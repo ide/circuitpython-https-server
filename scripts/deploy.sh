@@ -31,5 +31,5 @@ rsync --verbose --recursive --delete --checksum -@2 \
 echo 'Finished copying application code'
 
 echo 'Installing libraries with circup'
-circup install -a
+circup install -all
 echo 'Finished installing libraries with circup'

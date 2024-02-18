@@ -16,7 +16,7 @@ def index(request):
     return Response(
         request,
         content_type="text/plain",
-        body=f"Hello from {u.machine} running {u.version}!\n",
+        body=f"Hello from {u.machine} running CircuitPython {u.version}!\n",
     )
 
 
