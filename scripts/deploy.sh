@@ -24,8 +24,12 @@ fi
 echo "Found device at $device_path"
 
 echo 'Copying application code...'
-rsync --verbose --recursive --delete --checksum \
+rsync --verbose --recursive --delete --checksum --times --modify-window=1 \
   --include '/._*' --exclude '/.*' \
-  --exclude '/boot_out.txt' --exclude '/settings.toml' \
+  --exclude '/boot_out.txt' --exclude '/settings.toml' --exclude '/lib' \
   "$project_directory/src/" "$device_path"
 echo 'Finished copying application code'
+
+echo 'Installing libraries with circup'
+circup install --requirement circup_requirements.txt
+echo 'Finished installing libraries with circup'
